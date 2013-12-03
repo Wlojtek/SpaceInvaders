@@ -16,7 +16,7 @@ package
 	import flash.display.Sprite;
 	import flash.utils.Timer;
 	
-	public class SpaceInvadersMVC extends Sprite
+	public class SpaceInvaders extends Sprite
 	{
 		private var _bulletsModel:BulletsModel;
 		private var _shipsModel:IShipsModel;
@@ -26,7 +26,7 @@ package
 		
 		private var _board:BoardView;
 		
-		public function SpaceInvadersMVC()
+		public function SpaceInvaders()
 		{
 			var shipsFactory:ShipFactory = new InvaderShipFactory();
 			_shipsModel = new ShipsModel(shipsFactory, 4, 5);
