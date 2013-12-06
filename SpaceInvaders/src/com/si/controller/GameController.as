@@ -42,11 +42,6 @@ package com.si.controller
 			_timer.start();
 		}
 		
-		public function addBullet(bullet:Bullet):void
-		{
-			
-		}
-		
 		public function startGame():void
 		{
 		
@@ -59,7 +54,7 @@ package com.si.controller
 		
 		private function enterFrameHandler(event:Event):void
 		{
-			//_shipsModel.moveShips();
+			_bulletsModel.updateBullets();
 		}
 	}
 }

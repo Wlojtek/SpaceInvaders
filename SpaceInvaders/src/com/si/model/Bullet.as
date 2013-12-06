@@ -24,15 +24,27 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
-		public function Bullet(bulletSpeed:uint=DEFAULT_SPEED)
+		public function Bullet(x:int, y:int, bulletSpeed:uint=DEFAULT_SPEED)
 		{
 			super();
 			
 			_bulletSpeed = bulletSpeed;
+			_x = x;
+			_y = y;
 			
 			initialize();
 		}
 		
+		public function get y():int
+		{
+			return _y;
+		}
+
+		public function get x():int
+		{
+			return _x;
+		}
+
 		public function get bulletSpeed():uint
 		{
 			return _bulletSpeed;

@@ -22,10 +22,11 @@ package com.si.controller
 		private var _stage:Stage;
 		private var _bullletsModel:IBulletsModel
 		
-		public function PlayerShipController(playerShip:IPlayerShip, bullets:IBulletsModel, stage:Stage)
+		public function PlayerShipController(playerShip:IPlayerShip, bulletsModel:IBulletsModel, stage:Stage)
 		{
 			_playerShip = playerShip;
 			_stage = stage;
+			_bullletsModel = bulletsModel;
 			
 			initialize();
 		}

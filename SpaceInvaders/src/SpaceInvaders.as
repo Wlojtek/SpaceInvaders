@@ -28,19 +28,19 @@ package
 		
 		public function SpaceInvaders()
 		{
+			var timer:Timer = new Timer(1000);
+			_bulletsModel = new BulletsModel();
+			
 			var shipsFactory:ShipFactory = new InvaderShipFactory();
 			_shipsModel = new ShipsModel(shipsFactory, 4, 5);
 			
 			var playerShip:PlayerShip = new PlayerShip(_shipsModel.getPlayerShip());
 			
-			_board = new BoardView(_shipsModel, playerShip);
+			_board = new BoardView(_shipsModel, _bulletsModel, playerShip);
 			addChild(_board);
 			
-			var timer:Timer = new Timer(1000);
-			_shipController = new GameController(_shipsModel, null, _board, timer);
-			
-			
-			_playerShipController = new PlayerShipController(playerShip, null, _board.getStage());
+			_shipController = new GameController(_shipsModel, _bulletsModel, _board, timer);
+			_playerShipController = new PlayerShipController(playerShip, _bulletsModel, _board.getStage());
 		}
 	}
 }

@@ -28,7 +28,9 @@ package com.si.model
 		
 		public function fire():Bullet
 		{
-			return new Bullet();
+			var bullet:Bullet = new Bullet(_ship.x, _ship.y);
+			
+			return bullet;
 		}
 		
 		public function moveRight():void

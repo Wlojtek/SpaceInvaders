@@ -7,8 +7,9 @@ package com.si.model
 
 	public class ShipsModel extends EventDispatcher implements IShipsModel
 	{
-		private var _ships:Vector.<Ship> = new Vector.<Ship>;
+		private var _ships:Vector.<Vector.<Ship>> = new Vector.<Vector.<Ship>>;
 		private var _playerShip:Ship;
+		
 		private var _shipFactory:ShipFactory;
 		
 		private var _verticalShips:uint;
@@ -40,33 +41,24 @@ package com.si.model
 		{
 			_playerShip = _shipFactory.generateDefaultShip();
 
-			_ships = new Vector.<Ship>(_shipsSize);
-			
 			initializeShips();
 		}
 		
 		private function initializeShips():void
 		{
-			var currentX:uint = 0;
-			var currentY:uint = 0;
-			var j:uint = 1;
-			
-			for (var i:uint = 0; i < _shipsSize; i++)
+			for (var i:uint = 0; i < _horizontalShips; i++)
 			{
-				var ship:Ship = _shipFactory.generateDefaultShip();
-				ship.x =  currentX;
-				ship.y =  currentY;
+				_ships[i] = new Vector.<Ship>(_verticalShips);
 				
-				_ships[i] = ship;
-				
-				if ((i + 1) >=  j*_horizontalShips)
+				for (var j:uint = 0; j < _horizontalShips; j++)
 				{
-					currentX = 0;
-					currentY = currentY + SPACER;
-					j++;
+					var ship:Ship = _shipFactory.generateDefaultShip();
+					
+					ship.x = i*(SPACER);
+					ship.y = j*(SPACER);
+					
+					_ships[i][j] = ship;
 				}
-				else
-					currentX += SPACER;
 			}
 		}
 		
@@ -90,7 +82,7 @@ package com.si.model
 			return _playerShip;
 		}
 		
-		public function getShips():Vector.<Ship>
+		public function getShips():Vector.<Vector.<Ship>>
 		{
 			return _ships;
 		}
@@ -98,43 +90,41 @@ package com.si.model
 		public function moveShips():void
 		{
 			if (_moveDirection > 0 )
-				moveShipsRight();
+			{
+				if (hitRightBound())
+				{
+					moveShipsDown();
+					_moveDirection = 0;
+				}
+				else
+					moveShipsRight();					
+			}
 			else
-				moveShipsLeft();
+			{
+				if (hitLeftBound())
+				{
+					moveShipsDown();
+					_moveDirection = 1;
+				}
+				else
+					moveShipsLeft();
+			}
 			
 			dispatchEvent(new Event(Event.CHANGE));
-		}
-		
-		private function checkHitLeftBound(xPos:uint):Boolean
-		{
-			return (xPos <= 0);
-		}
-		
-		private function checkHitRightBound(xPos:uint):Boolean
-		{
-			return (xPos >= _boardWidth);
 		}
 		
 		private function moveShipsRight():void
 		{
 			var len:uint = _ships.length;
-			var hitRight:Boolean = false;
 			
 			for (var i:uint = 0; i < len; i++)
 			{
-				_ships[i].x += _shipsSpeed;
+				var lenH:uint = _ships[i].length;
 				
-				if (hitRightBound(_ships[i].x))
+				for (var j:uint = 0; j < lenH; j++)
 				{
-					hitRight = true;
-					break;
+					_ships[i][j].x += _shipsSpeed;					
 				}
-			}
-			
-			if (hitRight)
-			{
-				moveShipsDown();
-				_moveDirection = 0;
 			}
 		}
 		
@@ -144,31 +134,76 @@ package com.si.model
 			
 			for (var i:uint = 0; i < len; i++)
 			{
-				_ships[i].y += _shipsSpeed;
+				var lenH:uint = _ships[i].length;
+				
+				for (var j:uint = 0; j < lenH; j++)
+				{
+					_ships[i][j].y += _shipsSpeed;					
+				}
 			}
 		}
 		
 		private function moveShipsLeft():void
 		{
 			var len:uint = _ships.length;
-			var hitLeft:Boolean = false;
 			
 			for (var i:uint = 0; i < len; i++)
 			{
-				_ships[i].x -= _shipsSpeed;
+				var lenH:uint = _ships[i].length;
 				
-				if (hitLeftBound(_ships[i].x))
+				for (var j:uint = 0; j < lenH; j++)
 				{
-					hitLeft = true;
+					_ships[i][j].x -= _shipsSpeed;					
+				}
+			}
+		}
+		
+		private function hitRightBound():Boolean
+		{
+			var len:uint = _ships.length;
+			var rightIndex:int = -1;
+			var hitRight:Boolean = false;
+			
+			for(var i:int = len - 1; i >= 0; i--)
+			{
+				 if (_ships[i].length > 0)
+				 {
+					 rightIndex = i;
+					 break;
+				 }
+			}
+			
+			if (rightIndex != -1)
+			{
+				if (_ships[i][0].x >= _boardWidth)
+					hitRight = true;
+			}
+			
+			return hitRight;
+		}
+		
+		private function hitLeftBound():Boolean
+		{
+			var len:uint = _ships.length;
+			var leftIndex:int = -1;
+			var hitLeft:Boolean = false;
+			
+			for(var i:int = 0; i < len; i--)
+			{
+				if (_ships[i].length > 0)
+				{
+					leftIndex = i;
 					break;
 				}
 			}
 			
-			if (hitLeft)
+			if (hitLeft != -1)
 			{
-				moveShipsDown();
-				_moveDirection = 1;
+				if (_ships[i][0].x <= 0)
+					hitLeft = true;
 			}
+			
+			return hitLeft;
 		}
 	}
 }

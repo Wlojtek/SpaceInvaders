@@ -1,5 +1,6 @@
 package com.si.model
 {
+	import com.si.events.BulletEvent;
 	import com.si.model.Bullet;
 	
 	import flash.events.Event;
@@ -22,10 +23,10 @@ package com.si.model
 				var bullet:Bullet = _bulletsLaunched[i]; 
 				bullet.fly();
 				
-				change = true;
+				if (bullet.bulletMissed())
+					removeBullet(bullet);
 				
-				/*if (bullet.bulletMissed())
-					removeBullet(bullet);*/
+				change = true;
 			}
 			
 			if (change)
@@ -35,22 +36,23 @@ package com.si.model
 		public function addBullet(bullet:Bullet):void
 		{
 			_bulletsLaunched.push(bullet);
-			dispatchEvent(new Event(Event.CHANGE));
+			dispatchEvent(new BulletEvent(BulletEvent.ADD_BULLET, bullet));
+		}
+		
+		public function getBullets():Vector.<Bullet>
+		{
+			return _bulletsLaunched;
 		}
 		
 		public function removeBullet(bullet:Bullet):void
 		{
 			var index:int = _bulletsLaunched.indexOf(bullet);
+			var removedBullets:Vector.<Bullet>;
 			
 			if (index != -1)
-			{
-				/*if (_stage)
-					_stage.removeChild(bullet);*/
-				
-				_bulletsLaunched.splice(index, 1);
-			}
+				removedBullets = _bulletsLaunched.splice(index, 1);
 			
-			dispatchEvent(new Event(Event.CHANGE));
+			dispatchEvent(new BulletEvent(BulletEvent.REMOVE_BULLET, removedBullets[0]));
 		}
 	}
 }

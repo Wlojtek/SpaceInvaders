@@ -11,6 +11,19 @@ package com.si.view
 		public function BulletView(bullet:Bullet)
 		{
 			_bullet = bullet;
+			
+			drawBullet();
+		}
+		
+		public function compareByBullet(bullet:Bullet):Boolean
+		{
+			return _bullet == bullet;
+		}
+		
+		public function update():void
+		{
+			this.x = _bullet.x;
+			this.y = _bullet.y;
 		}
 		
 		public function drawBullet():void

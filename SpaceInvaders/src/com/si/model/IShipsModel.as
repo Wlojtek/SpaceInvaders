@@ -7,7 +7,7 @@ package com.si.model
 		function addShip(ship:Ship):void;
 		function removeShip(ship:Ship):void;
 		
-		function getShips():Vector.<Ship>;
+		function getShips():Vector.<Vector.<Ship>>;
 		
 		function moveShips():void;
 		
