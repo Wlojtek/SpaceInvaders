@@ -73,6 +73,11 @@ package com.si.model
 			_properties[property] = value;
 		}
 		
+		public function checkHit():Boolean
+		{
+			return false;
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  Private Methods

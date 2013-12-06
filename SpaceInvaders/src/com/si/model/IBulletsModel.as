@@ -8,6 +8,8 @@ package com.si.model
 	{
 		function addBullet(bullet:Bullet):void;
 		function removeBullet(bullet:Bullet):void;
+		function removeBullets(bullets:Vector.<Bullet>):void;
+		
 		function getBullets():Vector.<Bullet>;
 		function updateBullets():void
 	}

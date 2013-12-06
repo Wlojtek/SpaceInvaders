@@ -15,6 +15,11 @@ package com.si.view
 			drawBullet();
 		}
 		
+		public function get bullet():Bullet
+		{
+			return _bullet;
+		}
+
 		public function compareByBullet(bullet:Bullet):Boolean
 		{
 			return _bullet == bullet;

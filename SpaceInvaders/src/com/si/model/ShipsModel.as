@@ -36,32 +36,7 @@ package com.si.model
 			
 			initialize();
 		}
-		
-		private function initialize():void
-		{
-			_playerShip = _shipFactory.generateDefaultShip();
 
-			initializeShips();
-		}
-		
-		private function initializeShips():void
-		{
-			for (var i:uint = 0; i < _horizontalShips; i++)
-			{
-				_ships[i] = new Vector.<Ship>(_verticalShips);
-				
-				for (var j:uint = 0; j < _horizontalShips; j++)
-				{
-					var ship:Ship = _shipFactory.generateDefaultShip();
-					
-					ship.x = i*(SPACER);
-					ship.y = j*(SPACER);
-					
-					_ships[i][j] = ship;
-				}
-			}
-		}
-		
 		public function addShip(ship:Ship):void
 		{
 			_ships.push(ship);
@@ -75,6 +50,11 @@ package com.si.model
 				_ships.splice(index, 1);
 			
 			dispatchEvent(new Event(Event.CHANGE));
+		}
+		
+		public function removeShips(ships:Vector.<Ship>):void
+		{
+			
 		}
 		
 		public function getPlayerShip():Ship
@@ -112,6 +92,33 @@ package com.si.model
 			
 			dispatchEvent(new Event(Event.CHANGE));
 		}
+		
+		
+		private function initialize():void
+		{
+			_playerShip = _shipFactory.generateDefaultShip();
+			
+			initializeShips();
+		}
+		
+		private function initializeShips():void
+		{
+			for (var i:uint = 0; i < _horizontalShips; i++)
+			{
+				_ships[i] = new Vector.<Ship>(_verticalShips);
+				
+				for (var j:uint = 0; j < _horizontalShips; j++)
+				{
+					var ship:Ship = _shipFactory.generateDefaultShip();
+					
+					ship.x = i*(SPACER);
+					ship.y = j*(SPACER);
+					
+					_ships[i][j] = ship;
+				}
+			}
+		}
+		
 		
 		private function moveShipsRight():void
 		{

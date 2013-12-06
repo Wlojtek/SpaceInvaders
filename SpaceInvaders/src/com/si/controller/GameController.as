@@ -55,6 +55,7 @@ package com.si.controller
 		private function enterFrameHandler(event:Event):void
 		{
 			_bulletsModel.updateBullets();
+			
 		}
 	}
 }

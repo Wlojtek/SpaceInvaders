@@ -54,5 +54,10 @@ package com.si.model
 			
 			dispatchEvent(new BulletEvent(BulletEvent.REMOVE_BULLET, removedBullets[0]));
 		}
+		
+		public function removeBullets(bullets:Vector.<Bullet>):void
+		{
+			
+		}
 	}
 }
