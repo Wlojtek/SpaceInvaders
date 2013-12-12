@@ -1,8 +1,6 @@
 package com.si.model
 {
-	import com.si.model.ShipFactory;
-
-	public class InvaderShipFactory extends ShipFactory
+	public class PlayerShipFactory extends ShipFactory
 	{
 		//--------------------------------------------------------------------------
 		//
@@ -19,7 +17,7 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
-		public function InvaderShipFactory(config:IConfig)
+		public function PlayerShipFactory(config:IConfig)
 		{
 			super(config);
 		}

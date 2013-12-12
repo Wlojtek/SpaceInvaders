@@ -6,7 +6,19 @@ package com.si.view
 
 	public class BulletView extends Sprite
 	{
+		//--------------------------------------------------------------------------
+		//
+		//	Fields
+		//
+		//--------------------------------------------------------------------------
+		
 		private var _bullet:Bullet;
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Constructor
+		//
+		//--------------------------------------------------------------------------
 		
 		public function BulletView(bullet:Bullet)
 		{
@@ -15,6 +27,12 @@ package com.si.view
 			drawBullet();
 		}
 		
+		//--------------------------------------------------------------------------
+		//
+		//	Public methods
+		//
+		//--------------------------------------------------------------------------
+		
 		public function get bullet():Bullet
 		{
 			return _bullet;
@@ -22,7 +40,7 @@ package com.si.view
 
 		public function compareByBullet(bullet:Bullet):Boolean
 		{
-			return _bullet == bullet;
+			return _bullet.id == bullet.id;
 		}
 		
 		public function update():void

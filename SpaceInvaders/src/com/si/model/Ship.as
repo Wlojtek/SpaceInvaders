@@ -38,6 +38,16 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
+		public function get id():uint
+		{
+			return _id;
+		}
+
+		public function set id(value:uint):void
+		{
+			_id = value;
+		}
+
 		public function get y():uint
 		{
 			return _y;

@@ -7,12 +7,22 @@ package com.si.model
 	{
 		//--------------------------------------------------------------------------
 		//
+		//  Fields
+		//
+		//--------------------------------------------------------------------------
+		
+		private var _config:IConfig;
+		
+		//--------------------------------------------------------------------------
+		//
 		//	Constructor
 		//
 		//--------------------------------------------------------------------------
-		public function ShipFactory()
+		public function ShipFactory(config:IConfig)
 		{
 			super();
+			
+			_config = config;
 		}
 		
 		//--------------------------------------------------------------------------
@@ -24,6 +34,7 @@ package com.si.model
 		public function generateDefaultShip():Ship
 		{
 			var ship:Ship = createShip();
+			ship.id = _config.getUID();
 			
 			return ship;
 		}

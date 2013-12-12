@@ -1,9 +1,11 @@
 package com.si.controller
 {
 	import com.si.model.Bullet;
+	import com.si.model.GameModel;
 	import com.si.model.IBulletsModel;
+	import com.si.model.ICollisionMediator;
+	import com.si.model.IGameModel;
 	import com.si.model.IShipsModel;
-	import com.si.model.Model;
 	import com.si.model.Ship;
 	import com.si.view.BoardView;
 	import com.si.view.ShipViewBase;
@@ -18,26 +20,29 @@ package com.si.controller
 	{
 		private var _shipsModel:IShipsModel;
 		private var _bulletsModel:IBulletsModel;
-		private var _board:BoardView
-		private var _timer:Timer;
+		private var _gameModel:IGameModel;
 		
-		public function GameController(shipsModel:IShipsModel, bulletsModel:IBulletsModel, board:BoardView, timer:Timer)
+		private var _stage:Stage
+		private var _timer:Timer;
+		private var _collisionMediator:ICollisionMediator;
+		
+		public function GameController(shipsModel:IShipsModel, bulletsModel:IBulletsModel, stage:Stage, timer:Timer, collisionMediator:ICollisionMediator)
 		{
 			_shipsModel = shipsModel;
 			_bulletsModel = bulletsModel;
+			
 			_timer = timer;
 			
-			_board = board;
+			_stage = stage;
+			_collisionMediator = collisionMediator;
 			
 			initialize();
 		}
 		
 		private function initialize():void
 		{
-			var gameStage:Stage = _board.getStage();
-			
 			_timer.addEventListener(TimerEvent.TIMER, timerEventHandler);
-			gameStage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			_stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			
 			_timer.start();
 		}
@@ -55,7 +60,7 @@ package com.si.controller
 		private function enterFrameHandler(event:Event):void
 		{
 			_bulletsModel.updateBullets();
-			
+			_collisionMediator.checkCollisions();
 		}
 	}
 }

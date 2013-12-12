@@ -2,6 +2,7 @@ package com.si.view
 {
 	import com.si.events.BulletEvent;
 	import com.si.events.PlayerEvent;
+	import com.si.events.ShipEvent;
 	import com.si.model.Bullet;
 	import com.si.model.IBulletsModel;
 	import com.si.model.IShipsModel;
@@ -14,6 +15,12 @@ package com.si.view
 	
 	public class BoardView extends Sprite
 	{	
+		//--------------------------------------------------------------------------
+		//
+		//	Fields
+		//
+		//--------------------------------------------------------------------------
+		
 		private var _ships:Vector.<ShipViewBase> = new Vector.<ShipViewBase>();
 		private var _bullets:Vector.<BulletView> = new Vector.<BulletView>();
 		
@@ -23,16 +30,27 @@ package com.si.view
 		private var _shipsModel:IShipsModel;
 		private var _bulletsModel:IBulletsModel;
 		
-		public function BoardView(shipsModel:IShipsModel, bulletsModel:IBulletsModel, playerShip:PlayerShip)
+		//--------------------------------------------------------------------------
+		//
+		//	Constructor
+		//
+		//--------------------------------------------------------------------------
+		
+		public function BoardView(shipsModel:IShipsModel, bulletsModel:IBulletsModel)
 		{
 			super();
 			
 			_shipsModel = shipsModel;
-			_playerShip = playerShip;
 			_bulletsModel = bulletsModel;
 			
 			initialize();
 		}
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Public methods
+		//
+		//--------------------------------------------------------------------------
 		
 		public function getStage():Stage
 		{
@@ -44,17 +62,33 @@ package com.si.view
 			return _playerShipView;
 		}
 		
+		public function getShipsView():Vector.<ShipViewBase>
+		{
+			return _ships;
+		}
+		
+		public function getBulletsView():Vector.<BulletView>
+		{
+			return _bullets;
+		}
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Private methods
+		//
+		//--------------------------------------------------------------------------
+		
 		private function initialize():void
 		{
 			initializeShipsView();
-			initializePlayerShip();
 			
 			_shipsModel.addEventListener(Event.CHANGE, _shipsModel_changeHandler);
-			_playerShip.addEventListener(PlayerEvent.SHIP_MOVE, playerShip_moveHandler);
 			
 			_bulletsModel.addEventListener(Event.CHANGE, _bulletsModel_changeHandler);
 			_bulletsModel.addEventListener(BulletEvent.ADD_BULLET, _bulletsModel_addBulletHandler);
 			_bulletsModel.addEventListener(BulletEvent.REMOVE_BULLET, _bulletsModel_removeBulletHandler);
+			
+			_shipsModel.addEventListener(ShipEvent.REMOVE_SHIP, _shipsModel_removeShipHandler);
 		}
 		
 		private function initializeShipsView():void
@@ -77,21 +111,6 @@ package com.si.view
 			}
 		}
 		
-		private function initializePlayerShip():void
-		{
-			var playerShip:Ship = _shipsModel.getPlayerShip();
-			_playerShipView = new PlayerShipView(playerShip);
-			
-			_playerShipView.update();
-			
-			addChild(_playerShipView);
-		}
-		
-		private function playerShip_moveHandler(event:PlayerEvent):void
-		{
-			_playerShipView.update();
-		}
-		
 		private function _shipsModel_changeHandler(event:Event):void
 		{
 			updateShips();
@@ -112,7 +131,10 @@ package com.si.view
 			for (var i:uint = 0; i <  _bullets.length; i++)
 			{
 				if(_bullets[i].compareByBullet(bulletToRemove))
+				{
 					removeBulletView(_bullets[i]);
+					return;
+				}
 			}
 		}
 		
@@ -129,6 +151,31 @@ package com.si.view
 			
 			if (index != -1)
 				_bullets.splice(index, 1);
+		}
+		
+		private function removeShipView(shipView:ShipViewBase):void
+		{
+			removeChild(shipView);
+			
+			var index:int = _ships.indexOf(shipView);
+			
+			if (index != -1)
+				_ships.splice(index, 1);
+		}
+		
+		private function _shipsModel_removeShipHandler(event:ShipEvent):void
+		{
+			var shipsToRemove:Ship = event.ship;
+			var len:uint = _ships.length;
+			
+			for (var i:uint = 0; i <  len; i++)
+			{
+				if(_ships[i].compareByShip(shipsToRemove))
+				{
+					removeShipView(_ships[i]);
+					break;
+				}
+			}
 		}
 		
 		private function updateBullets():void

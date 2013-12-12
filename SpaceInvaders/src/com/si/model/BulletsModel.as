@@ -8,11 +8,29 @@ package com.si.model
 
 	public class BulletsModel extends EventDispatcher implements IBulletsModel
 	{
+		//--------------------------------------------------------------------------
+		//
+		//	Fields
+		//
+		//--------------------------------------------------------------------------
+		
 		private var _bulletsLaunched:Vector.<Bullet> = new Vector.<Bullet>;
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Constructor
+		//
+		//--------------------------------------------------------------------------
 		
 		public function BulletsModel()
 		{
 		}
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Public methods
+		//
+		//--------------------------------------------------------------------------
 		
 		public function updateBullets():void
 		{
@@ -57,7 +75,10 @@ package com.si.model
 		
 		public function removeBullets(bullets:Vector.<Bullet>):void
 		{
+			var len:uint = bullets.length;
 			
+			for (var i:int = 0; i <len; i++)
+				removeBullet(bullets[i]);
 		}
 	}
 }

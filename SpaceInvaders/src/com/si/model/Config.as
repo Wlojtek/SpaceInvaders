@@ -1,42 +1,33 @@
 package com.si.model
 {
-	import com.si.model.ShipFactory;
-
-	public class InvaderShipFactory extends ShipFactory
+	public class Config implements IConfig
 	{
 		//--------------------------------------------------------------------------
 		//
-		//  Fields
+		//	Fields
 		//
 		//--------------------------------------------------------------------------
 		
-		public static const SHIP_VALUE:uint = 100;
-		public static const SHIP_COLOR:uint = 0x000000;
+		private var _currentUID:uint = 0;
 		
 		//--------------------------------------------------------------------------
 		//
-		//  Constructor
+		//	Constructor
 		//
 		//--------------------------------------------------------------------------
 		
-		public function InvaderShipFactory(config:IConfig)
+		public function Config()
+		{}
+		
+		//--------------------------------------------------------------------------
+		//
+		//	Public Methods
+		//
+		//--------------------------------------------------------------------------
+		
+		public function getUID():uint
 		{
-			super(config);
-		}
-		
-		//--------------------------------------------------------------------------
-		//
-		//  Protected Methods
-		//
-		//--------------------------------------------------------------------------
-		
-		override protected function createShip():Ship
-		{
-			var invaderShip:Ship = new Ship();
-			invaderShip.setProperty('color', SHIP_COLOR);
-			invaderShip.setProperty('value', SHIP_VALUE);
-			
-			return invaderShip;
+			return ++_currentUID;
 		}
 	}
 }

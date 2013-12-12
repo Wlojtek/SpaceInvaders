@@ -10,6 +10,7 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
+		private var _id:uint;
 		private var _x:int;
 		private var _y:int;
 		
@@ -35,6 +36,16 @@ package com.si.model
 			initialize();
 		}
 		
+		public function get id():uint
+		{
+			return _id;
+		}
+
+		public function set id(value:uint):void
+		{
+			_id = value;
+		}
+
 		public function get y():int
 		{
 			return _y;
@@ -62,7 +73,6 @@ package com.si.model
 
 		private function initialize():void
 		{
-			//drawBullet();
 		}
 		
 		//--------------------------------------------------------------------------
@@ -83,11 +93,5 @@ package com.si.model
 		{
 			return _y < 0;
 		}
-	
-		
-		/*public function removeBullet():void
-		{
-			stage.removeChild(this);
-		}*/
 	}
 }

@@ -6,10 +6,10 @@ package com.si.model
 	public interface ICollisionMediator
 	{
 		function registerBullets(bullets:IBulletsModel):void;
-		function registerShips(ships:Vector.<Vector.<Ship>>):void;
+		function registerShips(ships:IShipsModel):void;
 		
 		function registerBulletsView(bullets:Vector.<BulletView>):void;
-		function registerBulletsView(ships:Vector.<ShipViewBase>):void;
+		function registerShipsView(ships:Vector.<ShipViewBase>):void;
 		
 		function checkCollisions():void;
 	}

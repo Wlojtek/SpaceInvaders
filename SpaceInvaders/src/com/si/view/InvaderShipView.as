@@ -4,10 +4,22 @@ package com.si.view
 
 	public class InvaderShipView extends ShipViewBase
 	{
+		//--------------------------------------------------------------------------
+		//
+		//	Constructor
+		//
+		//--------------------------------------------------------------------------
+		
 		public function InvaderShipView(ship:Ship)
 		{
 			super(ship);
 		}
+		
+		//--------------------------------------------------------------------------
+		//
+		//	internal methods
+		//
+		//--------------------------------------------------------------------------
 		
 		override internal function drawShip():void
 		{

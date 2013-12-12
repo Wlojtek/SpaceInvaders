@@ -1,5 +1,7 @@
 package com.si.model
 {
+	import com.si.events.ShipEvent;
+	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
@@ -44,18 +46,31 @@ package com.si.model
 		
 		public function removeShip(ship:Ship):void
 		{
-			var index:int = _ships.indexOf(ship);
+			var lenW:uint = _ships.length;
+			var shipsRemoved:Vector.<Ship>;
 			
-			if (index != -1)
-				_ships.splice(index, 1);
+			for (var i:uint = 0; i < lenW; i++)
+			{
+				var index:int = _ships[i].indexOf(ship);
+				
+				if (index != -1)
+				{
+					shipsRemoved = _ships[i].splice(index, 1);
+					break;
+				}
+			}
 			
-			dispatchEvent(new Event(Event.CHANGE));
+			if (shipsRemoved)
+				dispatchEvent(new ShipEvent(ShipEvent.REMOVE_SHIP, shipsRemoved[0]));
 		}
 		
 		public function removeShips(ships:Vector.<Ship>):void
 		{
+			var len:uint = ships.length;
 			
-		}
+			for (var i:uint = 0; i < len; i++)
+				removeShip(ships[i]);
+		} 
 		
 		public function getPlayerShip():Ship
 		{
@@ -195,7 +210,7 @@ package com.si.model
 			var leftIndex:int = -1;
 			var hitLeft:Boolean = false;
 			
-			for(var i:int = 0; i < len; i--)
+			for(var i:int = 0; i < len; i++)
 			{
 				if (_ships[i].length > 0)
 				{
