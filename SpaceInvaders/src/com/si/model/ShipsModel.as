@@ -17,15 +17,14 @@ package com.si.model
 		private var _verticalShips:uint;
 		private var _horizontalShips:uint;
 		
-		private var _shipsSize:uint;
-		
-		private var _shipsSpeed:uint = 10; 
 		private var _moveDirection:uint = 1; 
-		
-		private static const SPACER:uint = 30;
 		
 		private var _boardHeight:uint = 200;
 		private var _boardWidth:uint = 200;
+		private var _shipsNum:uint = 0;
+		
+		private static const SPACER:uint = 30;
+		public static const SHIPS_SPEED:uint = 10;
 		
 		public function ShipsModel(shipFactory:ShipFactory, verticalShips:uint, horizontalShips:uint, target:IEventDispatcher=null)
 		{
@@ -34,14 +33,28 @@ package com.si.model
 			_shipFactory = shipFactory;
 			_verticalShips = verticalShips;
 			_horizontalShips = horizontalShips;
-			_shipsSize = _verticalShips*_horizontalShips;
 			
 			initialize();
 		}
 
 		public function addShip(ship:Ship):void
 		{
-			_ships.push(ship);
+			var index:uint = 0;
+			
+			if (_ships.length == 0)
+			{
+				index = _ships.push(new Vector.<Ship>());
+				index--;
+			}
+			
+			_ships[index].push(ship);
+			
+			_shipsNum++;
+		}
+		
+		public function haveAnyShips():Boolean
+		{
+			return _shipsNum > 0;
 		}
 		
 		public function removeShip(ship:Ship):void
@@ -61,7 +74,10 @@ package com.si.model
 			}
 			
 			if (shipsRemoved)
+			{
+				_shipsNum--;
 				dispatchEvent(new ShipEvent(ShipEvent.REMOVE_SHIP, shipsRemoved[0]));
+			}
 		}
 		
 		public function removeShips(ships:Vector.<Ship>):void
@@ -84,6 +100,8 @@ package com.si.model
 		
 		public function moveShips():void
 		{
+			checkShipsStatus();
+			
 			if (_moveDirection > 0 )
 			{
 				if (hitRightBound())
@@ -108,6 +126,13 @@ package com.si.model
 			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
+		private function checkShipsStatus():void
+		{
+			var hitBottom:Boolean = hitBottom();
+			
+			if (hitBottom)
+				dispatchEvent(new ShipEvent(ShipEvent.SHIP_HIT_BOTTOM, null)); 
+		}
 		
 		private function initialize():void
 		{
@@ -145,7 +170,7 @@ package com.si.model
 				
 				for (var j:uint = 0; j < lenH; j++)
 				{
-					_ships[i][j].x += _shipsSpeed;					
+					_ships[i][j].x += SHIPS_SPEED;					
 				}
 			}
 		}
@@ -160,7 +185,7 @@ package com.si.model
 				
 				for (var j:uint = 0; j < lenH; j++)
 				{
-					_ships[i][j].y += _shipsSpeed;					
+					_ships[i][j].y += SHIPS_SPEED;					
 				}
 			}
 		}
@@ -175,7 +200,7 @@ package com.si.model
 				
 				for (var j:uint = 0; j < lenH; j++)
 				{
-					_ships[i][j].x -= _shipsSpeed;					
+					_ships[i][j].x -= SHIPS_SPEED;					
 				}
 			}
 		}
@@ -197,7 +222,7 @@ package com.si.model
 			
 			if (rightIndex != -1)
 			{
-				if (_ships[i][0].x >= _boardWidth)
+				if (_ships[rightIndex][0].x >= _boardWidth)
 					hitRight = true;
 			}
 			
@@ -221,11 +246,29 @@ package com.si.model
 			
 			if (hitLeft != -1)
 			{
-				if (_ships[i][0].x <= 0)
+				if (_ships[leftIndex][0].x <= 0)
 					hitLeft = true;
 			}
 			
 			return hitLeft;
+		}
+		
+		private function hitBottom():Boolean
+		{
+			var len:uint = _ships.length;
+			var hitBottom:Boolean = false;
+			
+			for(var i:int = 0; i < len; i++)
+			{
+				var columnLen:uint = _ships[i].length;
+				
+				if (_ships[i][columnLen - 1].y >= _boardHeight)
+				{
+					hitBottom = true;
+				}
+			}
+			
+			return hitBottom;
 		}
 	}
 }

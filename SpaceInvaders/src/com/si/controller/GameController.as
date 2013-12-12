@@ -1,5 +1,6 @@
 package com.si.controller
 {
+	import com.si.events.ShipEvent;
 	import com.si.model.Bullet;
 	import com.si.model.GameModel;
 	import com.si.model.IBulletsModel;
@@ -23,15 +24,14 @@ package com.si.controller
 		private var _gameModel:IGameModel;
 		
 		private var _stage:Stage
-		private var _timer:Timer;
+		private var _shipsTimer:Timer;
 		private var _collisionMediator:ICollisionMediator;
 		
-		public function GameController(shipsModel:IShipsModel, bulletsModel:IBulletsModel, stage:Stage, timer:Timer, collisionMediator:ICollisionMediator)
+		public function GameController(shipsModel:IShipsModel, bulletsModel:IBulletsModel, stage:Stage, shipsTimer:Timer, collisionMediator:ICollisionMediator)
 		{
 			_shipsModel = shipsModel;
 			_bulletsModel = bulletsModel;
-			
-			_timer = timer;
+			_shipsTimer = shipsTimer;
 			
 			_stage = stage;
 			_collisionMediator = collisionMediator;
@@ -41,10 +41,13 @@ package com.si.controller
 		
 		private function initialize():void
 		{
-			_timer.addEventListener(TimerEvent.TIMER, timerEventHandler);
+			_shipsTimer.addEventListener(TimerEvent.TIMER, timerEventHandler);
 			_stage.addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			
-			_timer.start();
+			_shipsModel.addEventListener(ShipEvent.SHIP_HIT_BOTTOM, _shipsModel_shipHitBottomHandler);
+			_shipsModel.addEventListener(ShipEvent.REMOVE_SHIP, _shipsModel_shipRemoveHandler);
+			
+			_shipsTimer.start();
 		}
 		
 		public function startGame():void
@@ -52,15 +55,28 @@ package com.si.controller
 		
 		}
 		
-		private function timerEventHandler(event:TimerEvent):void
-		{
-			_shipsModel.moveShips();
-		}
-		
 		private function enterFrameHandler(event:Event):void
 		{
 			_bulletsModel.updateBullets();
 			_collisionMediator.checkCollisions();
+		}
+		
+		private function _shipsModel_shipRemoveHandler(event:ShipEvent):void
+		{
+			if (!_shipsModel.haveAnyShips())
+			{
+				_shipsTimer.stop();
+			}
+		}
+		
+		private function _shipsModel_shipHitBottomHandler(event:ShipEvent):void
+		{
+			_shipsTimer.stop();
+		}
+		
+		private function timerEventHandler(event:TimerEvent):void
+		{
+			_shipsModel.moveShips();
 		}
 	}
 }

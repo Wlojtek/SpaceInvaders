@@ -8,7 +8,7 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
-		public static const SHIP_VALUE:uint = 100;
+		public static const SHIP_SPEED:uint = 10;
 		public static const SHIP_COLOR:uint = 0x000000;
 		
 		//--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ package com.si.model
 		{
 			var invaderShip:Ship = new Ship();
 			invaderShip.setProperty('color', SHIP_COLOR);
-			invaderShip.setProperty('value', SHIP_VALUE);
+			invaderShip.setProperty('speed', SHIP_SPEED);
 			
 			return invaderShip;
 		}

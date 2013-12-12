@@ -62,14 +62,14 @@ package com.si.model
 		
 		public function checkCollisions():void
 		{
-			var bulletsToRemove:Vector.<Bullet> = new Vector.<Bullet>();
-			var shipsToRemove:Vector.<Ship> = new Vector.<Ship>();
-			
 			var bulletsLen:uint = _bulletsView.length;
 			var shipsLen:uint = _shipsView.length;
 			
 			if (!bulletsLen)
 				return;
+			
+			var bulletsToRemove:Vector.<Bullet> = new Vector.<Bullet>();
+			var shipsToRemove:Vector.<Ship> = new Vector.<Ship>();
 			
 			for (var i:uint = 0; i < bulletsLen; i++) 
 			{

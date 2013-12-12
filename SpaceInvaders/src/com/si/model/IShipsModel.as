@@ -10,8 +10,9 @@ package com.si.model
 		
 		function getShips():Vector.<Vector.<Ship>>;
 		
-		function moveShips():void;
+		function haveAnyShips():Boolean;
 		
+		function moveShips():void;
 		function getPlayerShip():Ship;
 	}
 }

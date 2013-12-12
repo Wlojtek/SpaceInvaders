@@ -13,6 +13,7 @@ package
 	import com.si.model.IShipsModel;
 	import com.si.model.InvaderShipFactory;
 	import com.si.model.PlayerShip;
+	import com.si.model.PlayerShipFactory;
 	import com.si.model.Ship;
 	import com.si.model.ShipFactory;
 	import com.si.model.ShipsModel;
@@ -44,7 +45,7 @@ package
 		public function SpaceInvaders()
 		{
 			var config:IConfig = new Config();
-			var timer:Timer = new Timer(1000);
+			var shipsTimer:Timer = new Timer(1000);
 			
 			initializeModels(config);
 			initializePlayerShipController(config);
@@ -56,12 +57,13 @@ package
 			
 			initializeCollisionsMediator();
 			
-			_gameController = new GameController(_shipsModel, _bulletsModel, stage, timer, _spaceCollisionsMediator);
+			_gameController = new GameController(_shipsModel, _bulletsModel, stage, shipsTimer, _spaceCollisionsMediator);
 		}
 		
 		private function initializeModels(config:IConfig):void
 		{
 			var shipsFactory:ShipFactory = new InvaderShipFactory(config);
+			var playerShipsFactory:ShipFactory = new PlayerShipFactory(config);
 			
 			_gameModel = new GameModel(3, 400, 400, 4, 5);
 			_bulletsModel = new BulletsModel();

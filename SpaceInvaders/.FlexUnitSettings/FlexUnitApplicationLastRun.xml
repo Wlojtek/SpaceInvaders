@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testrun name="" >
+<testsuite  name="Default Test Suite" project="SpaceInvaders">
+<testsuite name="flexUnitTests:BulletsModelTestCase" type="testcaseclass"/>
+<testsuite name="flexUnitTests:BulletTestCase" type="testcaseclass"/>
+<testsuite name="flexUnitTests:InvaderShipFactoryTest" type="testcaseclass"/>
+<testsuite name="flexUnitTests:ShipsModelTestCase" type="testcaseclass"/>
+<testsuite name="flexUnitTests:ShipTestCase" type="testcaseclass"/>
+</testsuite>
+<portNumber value="8765" />
+</testrun>

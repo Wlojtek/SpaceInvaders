@@ -8,6 +8,7 @@ package com.si.events
 	{
 		public static const ADD_SHIP:String = "addShip";
 		public static const REMOVE_SHIP:String = "removeShip";
+		public static const SHIP_HIT_BOTTOM:String = "shipHitBottom";
 		
 		private var _ship:Ship;
 		

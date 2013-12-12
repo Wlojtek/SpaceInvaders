@@ -25,6 +25,16 @@ package com.si.model
 		//
 		//--------------------------------------------------------------------------
 		
+		public function getBoardHeight():uint
+		{
+			return 0;
+		}
+		
+		public function getBoardWidth():uint
+		{
+			return 0;
+		}
+		
 		public function getUID():uint
 		{
 			return ++_currentUID;
